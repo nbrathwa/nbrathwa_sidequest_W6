@@ -24,7 +24,9 @@ export function buildBoarGroup(level) {
   // IMPORTANT:
   // Some p5play builds treat anis.w / anis.h as getter-only.
   // So we NEVER assume those assignments are safe.
-  const hasDefs = !!(level.assets?.boarAnis && typeof level.assets.boarAnis === "object");
+  const hasDefs = !!(
+    level.assets?.boarAnis && typeof level.assets.boarAnis === "object"
+  );
 
   if (hasDefs) {
     // Wire the sheet + anis defs on the GROUP (nice default for Tiles-spawned boars),
@@ -35,7 +37,10 @@ export function buildBoarGroup(level) {
     try {
       level.boar.addAnis(level.assets.boarAnis);
     } catch (err) {
-      console.warn("[BoarSystem] group.addAnis failed; boars may be static:", err);
+      console.warn(
+        "[BoarSystem] group.addAnis failed; boars may be static:",
+        err,
+      );
       level.boar.img = level.assets.boarImg;
     }
   } else {
@@ -196,7 +201,8 @@ export function rebuildBoarsFromSpawns(level) {
     const e = new Sprite(s.x, s.y, boarW, boarH);
 
     // Sheet/anis (safe)
-    const hasDefs = level.assets?.boarAnis && typeof level.assets.boarAnis === "object";
+    const hasDefs =
+      level.assets?.boarAnis && typeof level.assets.boarAnis === "object";
     if (hasDefs) {
       safeAssignSpriteSheet(e, level.assets.boarImg);
       safeConfigureAniSheet(e, frameW, frameH, -8);
@@ -263,7 +269,8 @@ export function updateBoars(level) {
   const boarH = Number(level.tuning.boar?.h ?? 12);
   const boarHP = Number(level.tuning.boar?.hp ?? 3);
 
-  const hasAnis = level.assets?.boarAnis && typeof level.assets.boarAnis === "object";
+  const hasAnis =
+    level.assets?.boarAnis && typeof level.assets.boarAnis === "object";
 
   // IMPORTANT:
   // We iterate over a snapshot so replacing/removing boars won't break the loop.
@@ -438,7 +445,12 @@ export function updateBoars(level) {
     const frontHitsWall = frontProbeHitsWall(level, e);
     const headSeesFire = e.footProbe.overlapping(level.fire);
 
-    const dangerNow = noGroundAhead || frontHitsLeaf || frontHitsFire || frontHitsWall || headSeesFire;
+    const dangerNow =
+      noGroundAhead ||
+      frontHitsLeaf ||
+      frontHitsFire ||
+      frontHitsWall ||
+      headSeesFire;
 
     if (e.turnTimer === 0 && shouldTurnNow(e, dangerNow)) {
       turnBoar(level, e, -e.dir);
